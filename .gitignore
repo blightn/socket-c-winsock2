@@ -17,7 +17,7 @@
 *.pch
 
 # Libraries
-*.lib
+#*.lib
 *.a
 *.la
 *.lo
@@ -40,7 +40,7 @@
 *.dSYM/
 *.su
 *.idb
-*.pdb
+#*.pdb
 
 # Kernel Module Compile Results
 *.mod*
@@ -52,4 +52,4 @@ Mkfile.old
 dkms.conf
 
 # MSVS
-.vs
+.vs/
