@@ -128,57 +128,57 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Bins\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>..\Libs\openssl\x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Libs\openssl\x86\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Libs\openssl\x86\dynamic\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Libs\openssl\x86\dynamic\debug\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug (static)|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Bins\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>..\Libs\openssl\x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Libs\openssl\x86\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Libs\openssl\x86\static\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Libs\openssl\x86\static\debug\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bins\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>..\Libs\openssl\x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Libs\openssl\x86\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Libs\openssl\x86\dynamic\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Libs\openssl\x86\dynamic\release\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release (static)|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bins\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>..\Libs\openssl\x86\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Libs\openssl\x86\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Libs\openssl\x86\static\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Libs\openssl\x86\static\release\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Bins\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IncludePath>..\Libs\openssl\x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Libs\openssl\x64\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Libs\openssl\x64\dynamic\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Libs\openssl\x64\dynamic\debug\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug (static)|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Bins\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <LibraryPath>..\Libs\openssl\x64\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\Libs\openssl\x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Libs\openssl\x64\static\debug\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Libs\openssl\x64\static\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bins\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>..\Libs\openssl\x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Libs\openssl\x64\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Libs\openssl\x64\dynamic\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Libs\openssl\x64\dynamic\release\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release (static)|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Bins\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>..\Libs\openssl\x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\Libs\openssl\x64\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Libs\openssl\x64\static\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Libs\openssl\x64\static\release\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
