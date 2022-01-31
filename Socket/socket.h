@@ -65,8 +65,7 @@ typedef enum {
 	TLSV_1_3 = TLS1_3_VERSION,
 } TLS_VERSION;
 
-typedef struct
-{
+typedef struct {
 	SOCKET Socket;
 	PSSL   pSSL;
 	PSTR   pHost;
@@ -74,8 +73,7 @@ typedef struct
 
 typedef struct tcp_keepalive KEEPALIVE;
 
-typedef struct
-{
+typedef struct {
 	PCSTR		pCertPath;
 	PCSTR		pPrivKeyPath;
 	BOOL		VerifyCert;
@@ -89,8 +87,7 @@ typedef struct
 
 typedef const CONTEXT_OPTIONS* PCCONTEXT_OPTIONS;
 
-typedef struct
-{
+typedef struct {
 	PCSTR		pCertPath;
 	PCSTR		pPrivKeyPath;
 	BOOL		VerifyCert;
