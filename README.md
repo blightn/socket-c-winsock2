@@ -21,7 +21,7 @@ Socket - клиентская обёртка сокетов (TCP) для Windows
 
 Решение состоит из двух проектов (Example и Tests) с динамической/статической конфигурациями для x86 и x64. Протестировано на Windows Vista и выше.
 
-OpenSSL 1.1.1 можно скачать и собрать автоматически с использованием Vcpkg (https://github.com/microsoft/vcpkg). С OpenSSL версии 3.0 ещё не проверено, но, вероятно, будет работать.
+OpenSSL 1.1.1 можно скачать и собрать автоматически с использованием [Vcpkg](https://github.com/microsoft/vcpkg/). С OpenSSL версии 3.0 ещё не проверено, но, вероятно, будет работать.
 ____
 Socket is a client-side socket (TCP) wrapper for Windows. Written in C using MSVS 2019, WinAPI and Winsock2 (2.2). OpenSSL 1.1.1m (from 14 Dec 2021) is used for TLS support. In folder Libs\openssl\ resides a statically built version.
 
@@ -44,7 +44,7 @@ The Misc folder:
 
 The solution consists of two projects (Example and Tests) with dynamic/static configurations for both x86 and x64 architectures. Tested on Windows Vista and above.
 
-You can get OpenSSL 1.1.1 using Vcpkg (https://github.com/microsoft/vcpkg). With OpenSSL 3.0 hasn't been tested yet, but will probably work.
+You can get OpenSSL 1.1.1 using [Vcpkg](https://github.com/microsoft/vcpkg/). With OpenSSL 3.0 hasn't been tested yet, but will probably work.
 
 ## Building
 
