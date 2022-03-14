@@ -24,31 +24,31 @@
 #	define WITH_DEBUG_OUTPUT
 #endif
 
-#define MBTOB(mb)	  ((mb) * 1024 * 1024)
+#define MBTOB(mb)     ((mb) * 1024 * 1024)
 
-#define SECTOMS(s)	  ((s) * 1000)
-#define MINTOMS(m)	  ((m) * SECTOMS(60))
+#define SECTOMS(s)    ((s) * 1000)
+#define MINTOMS(m)    ((m) * SECTOMS(60))
 
-#define KA_TIMEOUT	  MINTOMS(5)
+#define KA_TIMEOUT    MINTOMS(5)
 #define KA_INTERVAL   SECTOMS(1)
 
 #define SSOCKET_ERROR SOCKET_ERROR
-#define OPENSSL_OK	  1
+#define OPENSSL_OK    1
 
 typedef const VOID* PCVOID;
 typedef const BYTE* PCBYTE;
 typedef const CHAR* PCCHAR;
 
-typedef SSL_CTX*	PSSL_CTX;
-typedef SSL*		PSSL;
+typedef SSL_CTX*    PSSL_CTX;
+typedef SSL*        PSSL;
 
-typedef PVOID		(*PMALLOC)	(size_t, PCSTR, INT);
-typedef PVOID		(*PREALLOC) (PVOID, size_t, PCSTR, INT);
-typedef VOID		(*PFREE)	(PVOID, PCSTR, INT);
+typedef PVOID       (*PMALLOC)  (size_t, PCSTR, INT);
+typedef PVOID       (*PREALLOC) (PVOID, size_t, PCSTR, INT);
+typedef VOID        (*PFREE)    (PVOID, PCSTR, INT);
 
-typedef PMALLOC*	PPMALLOC;
-typedef PREALLOC*	PPREALLOC;
-typedef PFREE*		PPFREE;
+typedef PMALLOC*    PPMALLOC;
+typedef PREALLOC*   PPREALLOC;
+typedef PFREE*      PPFREE;
 
 typedef enum {
 	IPV_4 = AF_INET,
@@ -74,13 +74,13 @@ typedef struct {
 typedef struct tcp_keepalive KEEPALIVE;
 
 typedef struct {
-	PCSTR		pCertPath;
-	PCSTR		pPrivKeyPath;
-	BOOL		VerifyCert;
-	PCSTR		pCAPath;
-	BOOL		UseCompression;
-	BOOL		UseRenegotiation;
-	BOOL		UseSessionCache;
+	PCSTR       pCertPath;
+	PCSTR       pPrivKeyPath;
+	BOOL        VerifyCert;
+	PCSTR       pCAPath;
+	BOOL        UseCompression;
+	BOOL        UseRenegotiation;
+	BOOL        UseSessionCache;
 	TLS_VERSION TLSMinVer;
 	TLS_VERSION TLSMaxVer;
 } CONTEXT_OPTIONS, *PCONTEXT_OPTIONS;
@@ -88,11 +88,11 @@ typedef struct {
 typedef const CONTEXT_OPTIONS* PCCONTEXT_OPTIONS;
 
 typedef struct {
-	PCSTR		pCertPath;
-	PCSTR		pPrivKeyPath;
-	BOOL		VerifyCert;
-	BOOL		UseCompression;
-	BOOL		UseRenegotiation;
+	PCSTR       pCertPath;
+	PCSTR       pPrivKeyPath;
+	BOOL        VerifyCert;
+	BOOL        UseCompression;
+	BOOL        UseRenegotiation;
 	TLS_VERSION TLSMinVer;
 	TLS_VERSION TLSMaxVer;
 } SSL_OPTIONS, *PSSL_OPTIONS;

@@ -1,4 +1,4 @@
-﻿#ifdef NDEBUG
+#ifdef NDEBUG
 #	error Tests can be run only in debug mode
 #endif
 
@@ -10,36 +10,36 @@
 
 #include "..\Socket\socket.h"
 
-#define TEST_IPV_4	 1
-//#define TEST_IPV_6	 1
+#define TEST_IPV_4   1
+//#define TEST_IPV_6   1
 
-#define RWBUF_SIZE	 64
-#define RWBUF_SIZE2	 MBTOB(8)
+#define RWBUF_SIZE   64
+#define RWBUF_SIZE2  MBTOB(8)
 
-#define ITERATIONS	 64
-#define ITERATIONS2	 8
+#define ITERATIONS   64
+#define ITERATIONS2  8
 
 #define THREAD_COUNT 4
-#define WAIT_TIME	 SECTOMS(15)
+#define WAIT_TIME    SECTOMS(15)
 
 #ifdef TEST_IPV_4
-#	define HOST		 L"127.0.0.1"
-#	define IPV		 IPV_4
+#	define HOST      L"127.0.0.1"
+#	define IPV       IPV_4
 #elif TEST_IPV_6
-#	define HOST		 L"::1"
-#	define IPV		 IPV_6
+#	define HOST      L"::1"
+#	define IPV       IPV_6
 #else
 #	error Specify the IP version macro for tests (TEST_IPV_4 or TEST_IPV_6)
 #endif
 
-#define HTTP_PORT	 L"80"
-#define HTTPS_PORT	 L"443"
-#define REQUEST		 "GET / HTTP/1.1\r\nHost: %S:%S\r\n\r\n"
+#define HTTP_PORT    L"80"
+#define HTTPS_PORT   L"443"
+#define REQUEST      "GET / HTTP/1.1\r\nHost: %S:%S\r\n\r\n"
 
 static DWORD  g_dwCounter;
 static HANDLE g_hServerEvent = NULL;
 static HANDLE g_hClientEvent = NULL;
-static PBYTE  g_pbTestData	 = NULL;
+static PBYTE  g_pbTestData   = NULL;
 
 static const BYTE g_bTestData[] = { 0x81, 0xb4, 0xfc, 0x15, 0x21, 0xaf, 0x4a, 0x72, 0x73, 0x21, 0x3a, 0xb1, 0x4e, 0x3a, 0x0f, 0x5a, 0x1a, 0x0d, 0x4f, 0x41, 0x4c, 0x0e, 0x95, 0xf1, 0xa0, 0x36, 0xac, 0x32, 0x40, 0xb7, 0x34, 0xdb };
 
@@ -48,9 +48,9 @@ static struct {
 	PCWSTR pWant;
 } g_TestPunycodeData[] =
 {
-	{ L"example.com", L"example.com"		   },
+	{ L"example.com", L"example.com"           },
 	{ L"пример.рф",   L"xn--e1afmkfd.xn--p1ai" },
-	{ L"网.中国",	  L"xn--ur0a.xn--fiqs8s"   },
+	{ L"网.中国",      L"xn--ur0a.xn--fiqs8s"   },
 };
 
 extern PWSTR(*pSocketConvertToPunycode)(PCWSTR);
@@ -113,22 +113,22 @@ static VOID TestMemoryFunctions(VOID)
 {
 	PMALLOC  pMalloc  = NULL;
 	PREALLOC pReAlloc = NULL;
-	PFREE	 pFree	  = NULL;
-	INT		 Res;
-	PBYTE	 pbBuf	  = NULL;
+	PFREE    pFree    = NULL;
+	INT      Res;
+	PBYTE    pbBuf    = NULL;
 
 	SocketGetMemFunctions(&pMalloc, &pReAlloc, &pFree);
-	assert(pMalloc	== CRYPTO_malloc);
+	assert(pMalloc  == CRYPTO_malloc);
 	assert(pReAlloc == CRYPTO_realloc);
-	assert(pFree	== CRYPTO_free);
+	assert(pFree    == CRYPTO_free);
 
 	Res = SocketSetMemFunctions(TestMalloc, TestReAlloc, TestFree);
 	assert(Res == TRUE);
 
 	SocketGetMemFunctions(&pMalloc, &pReAlloc, &pFree);
-	assert(pMalloc	== TestMalloc);
+	assert(pMalloc  == TestMalloc);
 	assert(pReAlloc == TestReAlloc);
-	assert(pFree	== TestFree);
+	assert(pFree    == TestFree);
 
 	g_dwCounter = 0;
 
@@ -151,20 +151,20 @@ static VOID TestMemoryFunctions(VOID)
 	assert(Res == TRUE);
 
 	SocketGetMemFunctions(&pMalloc, &pReAlloc, &pFree);
-	assert(pMalloc	== CRYPTO_malloc);
+	assert(pMalloc  == CRYPTO_malloc);
 	assert(pReAlloc == CRYPTO_realloc);
-	assert(pFree	== CRYPTO_free);
+	assert(pFree    == CRYPTO_free);
 }
 
 static VOID TestPlainMode(VOID)
 {
 	PSSOCKET   pSocket = NULL;
 	IP_VERSION Version;
-	INT		   Res;
-	BOOL	   Ready;
-	DWORD	   dwBytes;
-	BYTE	   bBuf[RWBUF_SIZE];
-	PBYTE	   pbBuf   = NULL;
+	INT        Res;
+	BOOL       Ready;
+	DWORD      dwBytes;
+	BYTE       bBuf[RWBUF_SIZE];
+	PBYTE      pbBuf   = NULL;
 
 	StartTestServer((PTHREAD_START_ROUTINE)PlainServer, FALSE);
 
@@ -418,15 +418,15 @@ static VOID TestPlainMode(VOID)
 
 static VOID TestSecureMode(VOID)
 {
-	PSSOCKET		pSocket = NULL;
-	INT				Res;
-	BOOL			Ready;
-	DWORD			dwBytes;
+	PSSOCKET        pSocket = NULL;
+	INT             Res;
+	BOOL            Ready;
+	DWORD           dwBytes;
 	CONTEXT_OPTIONS CtxOpts;
-	SSL_OPTIONS		SSLOpts;
-	PSSL_CTX		pCtx	= NULL;
-	BYTE			bBuf[RWBUF_SIZE];
-	PBYTE			pbBuf	= NULL;
+	SSL_OPTIONS     SSLOpts;
+	PSSL_CTX        pCtx    = NULL;
+	BYTE            bBuf[RWBUF_SIZE];
+	PBYTE           pbBuf   = NULL;
 
 	StartTestServer((PTHREAD_START_ROUTINE)SecureServer, TRUE);
 
@@ -483,26 +483,26 @@ static VOID TestSecureMode(VOID)
 	assert(dwBytes == 0);
 	assert(Res == TRUE);
 
-	CtxOpts.pCertPath		 = "..\\Misc\\client\\cert.pem";
-	CtxOpts.pPrivKeyPath	 = "..\\Misc\\client\\key.pem";
-	CtxOpts.VerifyCert		 = TRUE;
-	CtxOpts.pCAPath			 = "..\\Misc\\server\\cert.pem";
+	CtxOpts.pCertPath        = "..\\Misc\\client\\cert.pem";
+	CtxOpts.pPrivKeyPath     = "..\\Misc\\client\\key.pem";
+	CtxOpts.VerifyCert       = TRUE;
+	CtxOpts.pCAPath          = "..\\Misc\\server\\cert.pem";
 	CtxOpts.UseCompression   = FALSE;
 	CtxOpts.UseRenegotiation = FALSE;
 	CtxOpts.UseSessionCache  = FALSE;
-	CtxOpts.TLSMinVer		 = TLSV_1_3;
-	CtxOpts.TLSMaxVer		 = TLSV_1_3;
+	CtxOpts.TLSMinVer        = TLSV_1_3;
+	CtxOpts.TLSMaxVer        = TLSV_1_3;
 
 	pCtx = SocketCreateContext(&CtxOpts);
 	assert(pCtx != NULL);
 
-	SSLOpts.pCertPath		 = "..\\Misc\\client\\cert.crt";
-	SSLOpts.pPrivKeyPath	 = "..\\Misc\\client\\key.der";
-	SSLOpts.VerifyCert		 = TRUE;
+	SSLOpts.pCertPath        = "..\\Misc\\client\\cert.crt";
+	SSLOpts.pPrivKeyPath     = "..\\Misc\\client\\key.der";
+	SSLOpts.VerifyCert       = TRUE;
 	SSLOpts.UseCompression   = FALSE;
 	SSLOpts.UseRenegotiation = FALSE;
-	SSLOpts.TLSMinVer		 = TLSV_1_3;
-	SSLOpts.TLSMaxVer		 = TLSV_1_3;
+	SSLOpts.TLSMinVer        = TLSV_1_3;
+	SSLOpts.TLSMaxVer        = TLSV_1_3;
 
 	Res = SocketSecure(pSocket, pCtx, &SSLOpts);
 	assert(Res == TRUE);
@@ -690,10 +690,10 @@ static VOID TestSecureMode(VOID)
 static VOID TestThreadSafety(BOOL Secure)
 {
 	CONTEXT_OPTIONS CtxOpts;
-	PSSL_CTX		pCtx = NULL;
-	HANDLE			hThreads[THREAD_COUNT];
-	DWORD			i,
-					Res;
+	PSSL_CTX        pCtx = NULL;
+	HANDLE          hThreads[THREAD_COUNT];
+	DWORD           i,
+	                Res;
 
 	g_pbTestData = (PBYTE)OPENSSL_malloc(RWBUF_SIZE2);
 	assert(g_pbTestData != NULL);
@@ -705,15 +705,15 @@ static VOID TestThreadSafety(BOOL Secure)
 
 	if (Secure)
 	{
-		CtxOpts.pCertPath		 = "..\\Misc\\client\\cert.crt";
-		CtxOpts.pPrivKeyPath	 = "..\\Misc\\client\\key.der";
-		CtxOpts.VerifyCert		 = TRUE;
-		CtxOpts.pCAPath			 = "..\\Misc\\server\\cert.pem";
+		CtxOpts.pCertPath        = "..\\Misc\\client\\cert.crt";
+		CtxOpts.pPrivKeyPath     = "..\\Misc\\client\\key.der";
+		CtxOpts.VerifyCert       = TRUE;
+		CtxOpts.pCAPath          = "..\\Misc\\server\\cert.pem";
 		CtxOpts.UseCompression   = FALSE;
 		CtxOpts.UseRenegotiation = FALSE;
 		CtxOpts.UseSessionCache  = FALSE;
-		CtxOpts.TLSMinVer		 = TLSV_1_3;
-		CtxOpts.TLSMaxVer		 = TLSV_1_3;
+		CtxOpts.TLSMinVer        = TLSV_1_3;
+		CtxOpts.TLSMaxVer        = TLSV_1_3;
 
 		pCtx = SocketCreateContext(&CtxOpts);
 		assert(pCtx != NULL);
@@ -789,16 +789,16 @@ static VOID StartTestServer(PTHREAD_START_ROUTINE pFunc, BOOL Secure)
 {
 	ADDRINFOW  Hints;
 	PADDRINFOW pAddrInfo = NULL;
-	INT		   Res,
-			   Enabled;
-	SOCKET	   Socket	 = INVALID_SOCKET;
-	HANDLE	   hThread	 = NULL;
+	INT        Res,
+	           Enabled;
+	SOCKET     Socket    = INVALID_SOCKET;
+	HANDLE     hThread   = NULL;
 
 	ZeroMemory(&Hints, sizeof(Hints));
 	Hints.ai_family   = IPV;
 	Hints.ai_socktype = SOCK_STREAM;
 	Hints.ai_protocol = IPPROTO_TCP;
-	Hints.ai_flags	  = AI_PASSIVE;
+	Hints.ai_flags    = AI_PASSIVE;
 
 	Res = GetAddrInfoW(NULL, Secure ? HTTPS_PORT : HTTP_PORT, &Hints, &pAddrInfo);
 	assert(Res == 0);
@@ -830,7 +830,7 @@ static VOID StartTestServer(PTHREAD_START_ROUTINE pFunc, BOOL Secure)
 static INT PlainRead(SOCKET Socket, PBYTE pbData, INT Size)
 {
 	INT Read = 0,
-		Res  = 0;
+	    Res  = 0;
 
 	while (Size)
 	{
@@ -850,7 +850,7 @@ static INT PlainRead(SOCKET Socket, PBYTE pbData, INT Size)
 static INT PlainWrite(SOCKET Socket, PCBYTE pbData, INT Size)
 {
 	INT Sent = 0,
-		Res	 = 0;
+	    Res  = 0;
 
 	while (Size)
 	{
@@ -870,7 +870,7 @@ static INT PlainWrite(SOCKET Socket, PCBYTE pbData, INT Size)
 static INT SecureRead(PSSL pSSL, PBYTE pbData, INT Size)
 {
 	INT Read = 0,
-		Res	 = 0;
+	    Res  = 0;
 
 	while (Size)
 	{
@@ -890,10 +890,10 @@ static INT SecureRead(PSSL pSSL, PBYTE pbData, INT Size)
 static DWORD WINAPI PlainClient(LPVOID pvParam)
 {
 	PSSOCKET pSocket = NULL;
-	INT		 Res;
-	DWORD	 i;
-	BYTE	 bBuf[RWBUF_SIZE];
-	PBYTE	 pbBuf	 = NULL;
+	INT      Res;
+	DWORD    i;
+	BYTE     bBuf[RWBUF_SIZE];
+	PBYTE    pbBuf   = NULL;
 
 	// Random delay.
 
@@ -937,13 +937,13 @@ static DWORD WINAPI PlainClient(LPVOID pvParam)
 
 static DWORD WINAPI SecureClient(LPVOID pvParam)
 {
-	PSSL_CTX	pCtx	= (PSSL_CTX)pvParam;
-	PSSOCKET	pSocket = NULL;
-	INT			Res;
+	PSSL_CTX    pCtx    = (PSSL_CTX)pvParam;
+	PSSOCKET    pSocket = NULL;
+	INT         Res;
 	SSL_OPTIONS SSLOpts;
-	DWORD		i;
-	BYTE		bBuf[RWBUF_SIZE];
-	PBYTE		pbBuf	= NULL;
+	DWORD       i;
+	BYTE        bBuf[RWBUF_SIZE];
+	PBYTE       pbBuf   = NULL;
 
 	// Random delay.
 
@@ -955,13 +955,13 @@ static DWORD WINAPI SecureClient(LPVOID pvParam)
 	Res = SocketConnect(pSocket, HOST, HTTPS_PORT, IPV);
 	assert(Res == TRUE);
 
-	SSLOpts.pCertPath		 = "..\\Misc\\client\\cert.pem";
-	SSLOpts.pPrivKeyPath	 = "..\\Misc\\client\\key.pem";
-	SSLOpts.VerifyCert		 = TRUE;
+	SSLOpts.pCertPath        = "..\\Misc\\client\\cert.pem";
+	SSLOpts.pPrivKeyPath     = "..\\Misc\\client\\key.pem";
+	SSLOpts.VerifyCert       = TRUE;
 	SSLOpts.UseCompression   = FALSE;
 	SSLOpts.UseRenegotiation = FALSE;
-	SSLOpts.TLSMinVer		 = TLSV_1_3;
-	SSLOpts.TLSMaxVer		 = TLSV_1_3;
+	SSLOpts.TLSMinVer        = TLSV_1_3;
+	SSLOpts.TLSMaxVer        = TLSV_1_3;
 
 	Res = SocketSecure(pSocket, pCtx, &SSLOpts);
 	assert(Res == TRUE);
@@ -1001,9 +1001,9 @@ static DWORD WINAPI SecureClient(LPVOID pvParam)
 static DWORD WINAPI PlainServer(LPVOID pvParam)
 {
 	SOCKET Server = (SOCKET)pvParam,
-		   Client = INVALID_SOCKET;
+	       Client = INVALID_SOCKET;
 	BYTE   bBuf[RWBUF_SIZE];
-	INT	   Res;
+	INT    Res;
 	PBYTE  pbBuf  = NULL;
 
 	assert(Server != INVALID_SOCKET);
@@ -1073,13 +1073,13 @@ static DWORD WINAPI PlainServer(LPVOID pvParam)
 
 static DWORD WINAPI SecureServer(LPVOID pvParam)
 {
-	SOCKET	 Server = (SOCKET)pvParam,
-			 Client = INVALID_SOCKET;
-	PSSL_CTX pCtx	= NULL;
-	PSSL	 pSSL	= NULL;
-	BYTE	 bBuf[RWBUF_SIZE];
-	INT		 Res;
-	PBYTE	 pbBuf	= NULL;
+	SOCKET   Server = (SOCKET)pvParam,
+	         Client = INVALID_SOCKET;
+	PSSL_CTX pCtx   = NULL;
+	PSSL     pSSL   = NULL;
+	BYTE     bBuf[RWBUF_SIZE];
+	INT      Res;
+	PBYTE    pbBuf  = NULL;
 
 	assert(Server != INVALID_SOCKET);
 
@@ -1169,7 +1169,7 @@ static DWORD WINAPI SecureServer(LPVOID pvParam)
 static DWORD WINAPI PlainMultithreadedServer(LPVOID pvParam)
 {
 	SOCKET Server = (SOCKET)pvParam,
-		   Client = INVALID_SOCKET;
+	       Client = INVALID_SOCKET;
 	HANDLE hThreads[THREAD_COUNT];
 	DWORD  i;
 	INT    Res;
@@ -1208,7 +1208,7 @@ static DWORD WINAPI PlainMultithreadedServerWorker(LPVOID pvParam)
 	SOCKET Client = (SOCKET)pvParam;
 	DWORD  i;
 	BYTE   bBuf[RWBUF_SIZE];
-	INT	   Res;
+	INT    Res;
 	PBYTE  pbBuf  = NULL;
 
 	for (i = 0; i < ITERATIONS; ++i)
@@ -1248,13 +1248,13 @@ static DWORD WINAPI PlainMultithreadedServerWorker(LPVOID pvParam)
 
 static DWORD WINAPI SecureMultithreadedServer(LPVOID pvParam)
 {
-	SOCKET	 Server = (SOCKET)pvParam,
-			 Client = INVALID_SOCKET;
-	PSSL_CTX pCtx	= NULL;
-	PSSL	 pSSL	= NULL;
-	HANDLE	 hThreads[THREAD_COUNT];
-	DWORD	 i;
-	INT		 Res;
+	SOCKET   Server = (SOCKET)pvParam,
+	         Client = INVALID_SOCKET;
+	PSSL_CTX pCtx   = NULL;
+	PSSL     pSSL   = NULL;
+	HANDLE   hThreads[THREAD_COUNT];
+	DWORD    i;
+	INT      Res;
 
 	assert(Server != INVALID_SOCKET);
 
@@ -1320,7 +1320,7 @@ static DWORD WINAPI SecureMultithreadedServerWorker(LPVOID pvParam)
 	PSSL   pSSL   = (PSSL)pvParam;
 	DWORD  i;
 	BYTE   bBuf[RWBUF_SIZE];
-	INT	   Res;
+	INT    Res;
 	PBYTE  pbBuf  = NULL;
 	SOCKET Client = INVALID_SOCKET;
 

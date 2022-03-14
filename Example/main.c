@@ -3,18 +3,18 @@
 
 #include "..\Socket\socket.h"
 
-#define HOST	   L"google.com"
+#define HOST       L"google.com"
 #define HTTP_PORT  L"80"
 #define HTTPS_PORT L"443"
 #define REQUEST    "GET / HTTP/1.1\r\nHost: %S:%S\r\n\r\n"
 
 INT wmain(INT Argc, WCHAR* pArgv[], WCHAR* pEnv[])
 {
-	PSSOCKET		pSocket = NULL;
-	CHAR			Buf[512];
-	INT				Read;
+	PSSOCKET        pSocket = NULL;
+	CHAR            Buf[512];
+	INT             Read;
 	CONTEXT_OPTIONS Opts;
-	PSSL_CTX		pCtx	= NULL;
+	PSSL_CTX        pCtx    = NULL;
 
 	if (SocketInit())
 	{
@@ -38,15 +38,15 @@ INT wmain(INT Argc, WCHAR* pArgv[], WCHAR* pEnv[])
 			}
 
 			// 2. HTTPS GET request.
-			Opts.pCertPath		  = NULL;
-			Opts.pPrivKeyPath	  = NULL;
-			Opts.VerifyCert		  = TRUE;
-			Opts.pCAPath		  = "..\\Misc\\cacert.pem";
+			Opts.pCertPath        = NULL;
+			Opts.pPrivKeyPath     = NULL;
+			Opts.VerifyCert       = TRUE;
+			Opts.pCAPath          = "..\\Misc\\cacert.pem";
 			Opts.UseCompression   = FALSE;
 			Opts.UseRenegotiation = FALSE;
 			Opts.UseSessionCache  = TRUE;
-			Opts.TLSMinVer		  = TLSV_1_3;
-			Opts.TLSMaxVer		  = TLSV_1_3;
+			Opts.TLSMinVer        = TLSV_1_3;
+			Opts.TLSMaxVer        = TLSV_1_3;
 
 			if (pCtx = SocketCreateContext(&Opts))
 			{

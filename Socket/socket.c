@@ -1,18 +1,18 @@
 #include "socket.h"
 
 #ifdef WITH_DEBUG_OUTPUT
-#	define DEBUG_MSGW(format, ...)	{ \
-										SYSTEMTIME Time123; \
-										WCHAR	   Tmp123[512]; \
-										INT		   Res123; \
-										GetLocalTime(&Time123); \
-										Res123 = wsprintfW(Tmp123, L"[%02u:%02u:%02u:%03u]: " __FILEW__ L" - " __FUNCTIONW__ L"(): " format L"\n", \
-											Time123.wHour, Time123.wMinute, Time123.wSecond, Time123.wMilliseconds, __VA_ARGS__); \
-										if (Res123 >= 512) DebugBreak(); \
-										OutputDebugStringW(Tmp123); \
-									}
+#	define DEBUG_MSGW(format, ...)  { \
+	                                    SYSTEMTIME Time123; \
+	                                    WCHAR      Tmp123[512]; \
+	                                    INT        Res123; \
+	                                    GetLocalTime(&Time123); \
+	                                    Res123 = wsprintfW(Tmp123, L"[%02u:%02u:%02u:%03u]: " __FILEW__ L" - " __FUNCTIONW__ L"(): " format L"\n", \
+		                                    Time123.wHour, Time123.wMinute, Time123.wSecond, Time123.wMilliseconds, __VA_ARGS__); \
+	                                    if (Res123 >= 512) DebugBreak(); \
+	                                    OutputDebugStringW(Tmp123); \
+	                                }
 #else
-#	define DEBUG_MSGW(format, ...)	{}
+#	define DEBUG_MSGW(format, ...)  {}
 #endif
 
 #ifdef _DEBUG
@@ -72,10 +72,10 @@ VOID SocketDestroy(PSSOCKET pSocket)
 // Without automatic disconnect for already connected sockets.
 BOOL SocketConnect(PSSOCKET pSocket, PCWSTR pDomain, PCWSTR pPort, IP_VERSION Version)
 {
-	PWSTR	   pConv = NULL;
+	PWSTR      pConv = NULL;
 	ADDRINFOW  Hints;
 	PADDRINFOW pInfo = NULL;
-	BOOL	   Ok	 = FALSE;
+	BOOL       Ok    = FALSE;
 
 	if (!pSocket)
 	{
@@ -253,7 +253,7 @@ INT SocketRead(PSSOCKET pSocket, PBYTE pbData, INT Size, BOOL WaitAll)
 BOOL SocketReadEx(PSSOCKET pSocket, PBYTE pbData, INT Size, PINT pRead, BOOL WaitAll)
 {
 	INT Read = 0,
-		Res	 = 1;
+	    Res  = 1;
 
 	if (!pSocket)
 	{
@@ -334,8 +334,8 @@ INT SocketWrite(PSSOCKET pSocket, PCBYTE pbData, INT Size)
 
 BOOL SocketWriteEx(PSSOCKET pSocket, PCBYTE pbData, INT Size, PINT pWritten)
 {
-	INT Res		= 0,
-		Written = 0;
+	INT Res     = 0,
+	    Written = 0;
 
 	if (!pSocket)
 	{
@@ -372,7 +372,7 @@ BOOL SocketWriteEx(PSSOCKET pSocket, PCBYTE pbData, INT Size, PINT pWritten)
 			if ((Res = send(pSocket->Socket, (PCCHAR)&pbData[Written], Size, 0)) <= 0)
 				break;
 
-			Size	-= Res;
+			Size    -= Res;
 			Written += Res;
 		}
 
@@ -540,21 +540,21 @@ BOOL SocketBytesAvailable(PSSOCKET pSocket, PDWORD pdwBytes)
 PSSL_CTX SocketCreateContext(PCCONTEXT_OPTIONS pOpts)
 {
 	CONTEXT_OPTIONS Opts;
-	PSSL_CTX		pCtx = NULL;
+	PSSL_CTX        pCtx = NULL;
 
 	if (!pOpts)
 	{
 		DEBUG_MSGW(L"pOpts == NULL. Using default settings...");
 
-		Opts.pCertPath		  = NULL;
-		Opts.pPrivKeyPath	  = NULL;
-		Opts.VerifyCert		  = TRUE;
-		Opts.pCAPath		  = NULL;  // Use default OpenSSL CAs.
+		Opts.pCertPath        = NULL;
+		Opts.pPrivKeyPath     = NULL;
+		Opts.VerifyCert       = TRUE;
+		Opts.pCAPath          = NULL;  // Use default OpenSSL CAs.
 		Opts.UseCompression   = FALSE; // Disable compression by default to prevent CRIME.
 		Opts.UseRenegotiation = FALSE;
 		Opts.UseSessionCache  = TRUE;
-		Opts.TLSMinVer		  = TLSV_1_3;
-		Opts.TLSMaxVer		  = TLSV_1_3;
+		Opts.TLSMinVer        = TLSV_1_3;
+		Opts.TLSMaxVer        = TLSV_1_3;
 
 		pOpts = &Opts;
 	}
@@ -659,10 +659,10 @@ BOOL SocketIsSecure(PSSOCKET pSocket)
 
 static BOOL SocketSetupSocket(SOCKET Socket)
 {
-	BOOL	  Enabled;
+	BOOL      Enabled;
 	KEEPALIVE KeepAlive;
-	DWORD	  dwBytes;
-	BOOL	  Ok = FALSE;
+	DWORD     dwBytes;
+	BOOL      Ok = FALSE;
 
 	Enabled = TRUE;
 
@@ -671,8 +671,8 @@ static BOOL SocketSetupSocket(SOCKET Socket)
 	{
 		// For TCP, the default keep-alive timeout is 2 hours and the keep-alive interval is 1 second.
 		// On Windows Vista and later, the number of keep-alive probes (data retransmissions) is set to 10 and cannot be changed.
-		KeepAlive.onoff				= TRUE;
-		KeepAlive.keepalivetime		= KA_TIMEOUT;
+		KeepAlive.onoff             = TRUE;
+		KeepAlive.keepalivetime     = KA_TIMEOUT;
 		KeepAlive.keepaliveinterval = KA_INTERVAL;
 
 		if (WSAIoctl(Socket, SIO_KEEPALIVE_VALS, (LPVOID)&KeepAlive, sizeof(KeepAlive), NULL, 0, &dwBytes, NULL, NULL) != SOCKET_ERROR)
@@ -911,9 +911,9 @@ static PWSTR SocketConvertToPunycode(PCWSTR pDomain)
 
 static BOOL SocketReadyForAction(PSSOCKET pSocket, SOCKET_ACTION Action, PBOOL pReady)
 {
-	FD_SET	fdset;
+	FD_SET  fdset;
 	TIMEVAL Timeout;
-	INT		Res;
+	INT     Res;
 
 	FD_ZERO(&fdset);
 	FD_SET(pSocket->Socket, &fdset);
